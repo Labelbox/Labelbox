@@ -10,3 +10,4 @@ scripts/Annotations/
 docs/node_modules
 .idea
 .keras
+*.egg-info

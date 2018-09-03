@@ -1,0 +1,17 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pytest = "*"
+shapely = "*"
+requests = "*"
+pillow = "*"
+"jinja2" = "*"
+lbexporters = {editable = true, path = "."}
+
+[dev-packages]
+
+[requires]
+python_version = "3.6"

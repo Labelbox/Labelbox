@@ -1,0 +1,37 @@
+<annotation>
+    <folder>{{ folder }}</folder>
+    <filename>{{ filename }}</filename>
+    <path>{{ path }}</path>
+    <source>
+        <database>{{ database }}</database>
+    </source>
+    <size>
+        <width>{{ width }}</width>
+        <height>{{ height }}</height>
+        <depth>{{ depth }}</depth>
+    </size>
+    <segmented>{{ segmented }}</segmented>
+    {% for object in objects -%}
+    <object>
+        <name>{{ object.name }}</name>
+        <pose>{{ object.pose }}</pose>
+        <truncated>{{ object.truncated }}</truncated>
+        <difficult>{{ object.difficult }}</difficult>
+        {% if object.type == 'bndbox' -%}
+            <bndbox>
+                <xmin>{{ object.xy_coords[::2]|min }}</xmin>
+                <ymin>{{ object.xy_coords[1::2]|min }}</ymin>
+                <xmax>{{ object.xy_coords[::2]|max }}</xmax>
+                <ymax>{{ object.xy_coords[1::2]|max }}</ymax>
+            </bndbox>
+        {% else -%}
+            <polygon>
+            {% for i in range(0, object.xy_coords|length, 2) -%}
+                <x{{ loop.index }}>{{ object.xy_coords[i] }}</x{{ loop.index }}>
+                <y{{ loop.index }}>{{ object.xy_coords[i+1] }}</y{{ loop.index }}>
+            {% endfor -%}
+            </polygon>
+        {% endif -%}
+    </object>
+    {% endfor -%}
+</annotation>

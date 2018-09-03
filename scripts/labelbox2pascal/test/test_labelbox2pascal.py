@@ -1,6 +1,7 @@
 import os
-import labelbox2pascal as lb2pa
 
+import labelbox2pascal as lb2pa
+import pytest
 
 class TestFromJSON():
     def results_output(self):
@@ -16,16 +17,24 @@ class TestFromJSON():
     def test_wkt_2(self):
         lb2pa.from_json('test-fixtures/labelbox_2.json', self.results_output(),
                         self.results_output())
+    def test_v2_wkt(self):
+        lb2pa.from_json('test-fixtures/v2_wkt.json', self.results_output(),
+                        self.results_output())
+
+    def test_v3_wkt(self):
+        lb2pa.from_json('test-fixtures/v2_wkt.json', self.results_output(),
+                        self.results_output())
 
     def test_xy_1(self):
         lb2pa.from_json('test-fixtures/labelbox_xy_1.json',
                         self.results_output(), self.results_output(),
                         label_format='XY')
+    def test_v3_xy(self):
+        lb2pa.from_json('test-fixtures/v2_wkt.json', self.results_output(),
+                        self.results_output())
 
     def test_bad_label_format(self):
-        try:
+        with pytest.raises(lb2pa.UnknownFormatError):
             lb2pa.from_json('test-fixtures/labelbox_xy_1.json',
                             self.results_output(), self.results_output(),
-                            label_format='bad format')
-        except lb2pa.UnknownFormatError as e:
-            pass
+                            label_format='INVALID')

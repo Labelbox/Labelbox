@@ -1,15 +1,17 @@
-attrs==17.4.0
-certifi==2018.1.18
+-i https://pypi.org/simple
+atomicwrites==1.2.1; python_version != '3.1.*'
+attrs==18.2.0
+certifi==2018.8.24
 chardet==3.0.4
-idna==2.6
-Jinja2==2.10
-MarkupSafe==1.0
--e git+https://github.com/Labelbox/pascal-voc-writer.git@324d06d90d8fde94355b8c9c03cc8c1fb29a0999#egg=pascal_voc_writer
-Pillow==5.0.0
-pluggy==0.6.0
-py==1.5.2
-pytest==3.4.1
-requests==2.18.4
-Shapely==1.6.4.post1
+idna==2.7
+jinja2==2.10
+markupsafe==1.0
+more-itertools==4.3.0
+pillow==5.2.0
+pluggy==0.7.1; python_version != '3.1.*'
+py==1.6.0; python_version != '3.1.*'
+pytest==3.7.4
+requests==2.19.1
+shapely==1.6.4.post2
 six==1.11.0
-urllib3==1.22
+urllib3==1.23; python_version != '3.1.*'

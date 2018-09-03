@@ -4,14 +4,11 @@ import logging
 from shapely import wkt
 import requests
 from PIL import Image
-from pascal_voc_writer import Writer as PascalWriter
+
+from .pascal_voc_writer import Writer as PascalWriter
 
 
-class Error(Exception):
-    pass
-
-
-class UnknownFormatError(Error):
+class UnknownFormatError(Exception):
     """Exception raised for unknown label_format"""
 
     def __init__(self, label_format):
@@ -80,11 +77,11 @@ def from_json(labeled_data, ann_output_dir, images_output_dir,
         # convert multipolygon to Pascal VOC format
         for cat in labels.keys():
             if label_format == 'WKT':
-                xml_writer = add_pascal_object_from_wkt(
+                xml_writer = _add_pascal_object_from_wkt(
                     xml_writer, img_height=height, wkt_data=data['Label'][cat],
                     label=cat)
             elif label_format == 'XY':
-                xml_writer = add_pascal_object_from_xy(
+                xml_writer = _add_pascal_object_from_xy(
                     xml_writer, img_height=height, polygons=data['Label'][cat],
                     label=cat)
             else:
@@ -97,7 +94,7 @@ def from_json(labeled_data, ann_output_dir, images_output_dir,
                                      '{}.xml'.format(data['ID'])))
 
 
-def add_pascal_object_from_wkt(xml_writer, img_height, wkt_data, label):
+def _add_pascal_object_from_wkt(xml_writer, img_height, wkt_data, label):
     polygons = []
     if type(wkt_data) is list: # V3+
         polygons = map(lambda x: wkt.loads(x['geometry']), wkt_data)
@@ -115,7 +112,7 @@ def add_pascal_object_from_wkt(xml_writer, img_height, wkt_data, label):
     return xml_writer
 
 
-def add_pascal_object_from_xy(xml_writer, img_height, polygons, label):
+def _add_pascal_object_from_xy(xml_writer, img_height, polygons, label):
     for polygon in polygons:
         if 'geometry' in polygon: # V3
             polygon = polygon['geometry']
