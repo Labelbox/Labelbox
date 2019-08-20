@@ -10,7 +10,7 @@ from typing import Any, Dict
 from PIL import Image
 import requests
 from shapely import wkt
-from shapely.geometry import Polygon
+from shapely.geometry import box
 
 from exceptions import UnknownFormatError
 
@@ -167,11 +167,30 @@ def _get_polygons(label_format, label_data):
                     LOGGER.warning('Could not get an point list to construct polygon, skipping')
                     continue
 
-            if len(xy_list) > 2:  # need at least 3 points to make a polygon
-                polygons.append(Polygon(map(lambda p: (p['x'], p['y']), xy_list)))
+            if len(xy_list) > 1:
+                # find the bounding rectangle and add to the list of polys
+                polygons.append(get_bbox(xy_list))
+
     else:
         exc = UnknownFormatError(label_format=label_format)
         LOGGER.exception(exc.message)
         raise exc
 
     return polygons
+
+def get_bbox(xy_list):
+    # find the rectangle that contains all points
+
+    # initialize bounding box with first point
+    point = xy_list[0]
+    miny, minx, maxy, maxx = point['y'], point['x'], point['y'], point['x']
+
+    # iterate over points in polygon
+    for point in xy_list:
+        # find min and max coordinates
+        miny = min(miny, point['y'])
+        minx = min(minx, point['x'])
+        maxy = max(maxy, point['y'])
+        maxx = max(maxx, point['x'])
+
+    return box(minx, miny, maxx, maxy)
