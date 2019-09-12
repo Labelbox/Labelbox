@@ -177,7 +177,7 @@ class SingleFrameTask(Task):
 
     def calculate_bonus(self):
         boxes = self.video.count_keyframes(at_time=self.time)
-        num_cents = ((boxes - 1) * self.bonus_per_box + pay) * 100
+        num_cents = ((boxes - 1) * self.bonus_per_box + self.pay) * 100
         return math.ceil(num_cents) / 100
 
     @property
