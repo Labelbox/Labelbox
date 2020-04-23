@@ -1,0 +1,9 @@
+graphqlclient==0.2.4
+jupyter==1.0.0
+labelbox==2.4
+matplotlib==3.1.1
+pandas==1.0.2
+textblob==0.15.3
+torch==1.4.0
+transformers==2.8.0
+scikit-learn==0.21.3
